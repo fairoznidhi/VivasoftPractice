@@ -1,9 +1,10 @@
+import { useUpdateTodoMutation } from "../../redux/api/api";
 import { removeTodo, toggleComplete } from "../../redux/features/todoSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import { Button } from "../ui/button";
 
 type TTodoCardProps = {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   isCompleted: boolean;
@@ -11,15 +12,27 @@ type TTodoCardProps = {
 };
 
 const TodoCard = ({
+  _id,
   title,
   description,
-  id,
   isCompleted,
   priority,
 }: TTodoCardProps) => {
   const dispatch = useAppDispatch();
+  const [updateTodo, { isLoading }] = useUpdateTodoMutation();
   const toggleState = () => {
-    dispatch(toggleComplete(id));
+    const options = {
+      id: _id,
+      data: {
+        title,
+        description,
+        priority,
+        isCompleted: !isCompleted,
+      },
+    };
+    updateTodo(options);
+    console.log(options)
+    // dispatch(toggleComplete(id));
   };
   return (
     <div className="bg-white rounded-md flex justify-between items-center p-3 border">
@@ -29,6 +42,7 @@ const TodoCard = ({
         id="complete"
         onChange={toggleState}
         className="mr-3"
+        defaultChecked={isCompleted}
       ></input>
       <p className="font-semibold flex-1 mr-3">{title}</p>
       {/* <p>Time</p> */}
