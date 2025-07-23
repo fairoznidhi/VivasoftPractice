@@ -8,6 +8,7 @@ let server: Server;
 
 async function main() {
   try {
+    console.log('Database URL:', config.database_url);
     await mongoose.connect(config.database_url as string);
 
     seedSuperAdmin();
