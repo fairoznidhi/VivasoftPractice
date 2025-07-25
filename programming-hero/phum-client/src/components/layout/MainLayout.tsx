@@ -1,32 +1,43 @@
-import { Layout, Menu, type MenuProps } from "antd";
+import { Button, Layout, Menu } from "antd";
 import { Outlet } from "react-router-dom";
+import { useAppDispatch } from "../../redux/hooks";
+import { adminSidebarItem } from "../../routes/admin.routes";
+import { logout } from "../../redux/features/auth/authSlice";
 const { Header, Content, Footer, Sider } = Layout;
-const items: MenuProps["items"] = [
-  {
-    key: "1",
-    label: "Dashboard",
-  },
-  {
-    key: "2",
-    label: "Profile",
-  },
-  {
-    key: "3",
-    label: "User Management",
-    children: [
-      {
-        key: "4",
-        label: "Create Admin",
-      },
-      {
-        key: "5",
-        label: "Create User",
-      },
-    ],
-  },
-];
+// const items: MenuProps["items"] = [
+//   {
+//     key: "Dashboard",
+//     label: <NavLink to="/admin/dashboard">Dashboard</NavLink>,
+//   },
+//   {
+//     key: "Profile",
+//     label: "Profile",
+//   },
+//   {
+//     key: "User Management",
+//     label: "User Management",
+//     children: [
+//       {
+//         key: "Create Admin",
+//         label: <NavLink to="/admin/create-admin">Create Admin</NavLink>,
+//       },
+//       {
+//         key: "Create Faculty",
+//         label: <NavLink to="/admin/create-faculty">Create Faculty</NavLink>,
+//       },
+//       {
+//         key: "Create Student",
+//         label: <NavLink to="/admin/create-student">Create Student</NavLink>,
+//       },
+//     ],
+//   },
+// ];
 
 const MainLayout = () => {
+  const dispatch = useAppDispatch();
+  const handleLogout = () => {
+    dispatch(logout())
+  };
   return (
     <Layout style={{ height: "100vh" }}>
       <Sider
@@ -39,18 +50,28 @@ const MainLayout = () => {
           console.log(collapsed, type);
         }}
       >
-        <div style={{color:'white',height:'4rem',display:'flex',justifyContent:'center',alignItems:'center'}}>
+        <div
+          style={{
+            color: "white",
+            height: "4rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <h1>PH University</h1>
         </div>
         <Menu
           theme="dark"
           mode="inline"
           defaultSelectedKeys={["4"]}
-          items={items}
+          items={adminSidebarItem}
         />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0 }} />
+        <Header>
+          <Button onClick={handleLogout}>Logout</Button>
+        </Header>
         <Content style={{ margin: "24px 16px 0" }}>
           <div
             style={{
@@ -58,7 +79,7 @@ const MainLayout = () => {
               minHeight: 360,
             }}
           >
-           <Outlet/>
+            <Outlet />
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>

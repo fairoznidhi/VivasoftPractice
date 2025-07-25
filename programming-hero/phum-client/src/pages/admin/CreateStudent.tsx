@@ -1,7 +1,7 @@
 
 const CreateStudent = () => {
   return (
-    <div>CreateStudent</div>
+    <div style={{backgroundColor:'red'}}>CreateStudent</div>
   )
 }
 
